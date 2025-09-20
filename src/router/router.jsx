@@ -6,7 +6,6 @@ import Login from "../pages/Login";
 import CreateElection from "../pages/CreateElection";
 import RegisterVoters from "../pages/RegisterVoters";
 import CastVote from "../pages/CastVote";
-import YoPage from "../pages/YoPage";
 import CandidateManager from "../pages/CandidateManager";
 
 const router = createBrowserRouter([
@@ -31,7 +30,7 @@ const router = createBrowserRouter([
         element: <ProtectedRoute />,
         children: [
           { path: "/", element: <div>Welcome</div> },
-          { path: "/yo", element: <YoPage /> },
+          { path: "/cast", element: <CastVote /> },
         ],
       },
     ],
