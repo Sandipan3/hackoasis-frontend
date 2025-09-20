@@ -12,7 +12,7 @@ export const login = createAsyncThunk(
   "auth/login",
   async ({ publicAddress, signature }, thunkApi) => {
     try {
-      const res = await api.post("/login", { publicAddress, signature });
+      const res = await api.post("auth/login", { publicAddress, signature });
       return res.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.response.data.message);
@@ -55,7 +55,7 @@ export const { logout } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;
 
-// ✅ Selectors
+// Selectors
 export const selectAuthToken = (state) => state.auth.token;
 export const selectAuthAddress = (state) => state.auth.publicAddress;
 export const selectAuthLoading = (state) => state.auth.loading;

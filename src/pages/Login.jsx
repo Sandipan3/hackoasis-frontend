@@ -30,7 +30,7 @@ const Login = () => {
       const account = accounts[0]; //contains wallet address
 
       // Get nonce from backend
-      const nonceRes = await api.post("/nonce", { publicAddress: account });
+      const nonceRes = await api.post("auth/nonce", { publicAddress: account });
       const nonce = nonceRes.data.nonce;
 
       // Sign the nonce
