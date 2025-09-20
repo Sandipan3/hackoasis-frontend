@@ -18,7 +18,12 @@ const Login = () => {
     e.preventDefault();
 
     if (!window.ethereum) {
-      toast.error("MetaMask not found. Please install it.");
+      if (!window.ethereum) {
+        window.location.href =
+          "https://metamask.app.link/dapp/hackoasis-frontend.netlify.app";
+        return;
+      }
+
       return;
     }
 
