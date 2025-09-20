@@ -12,40 +12,29 @@ const Login = () => {
   const navigate = useNavigate();
 
   const loading = useSelector(selectAuthLoading);
-  const error = useSelector(selectAuthError);
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     if (!window.ethereum) {
-      if (!window.ethereum) {
-        window.location.href =
-          "https://metamask.app.link/dapp/hackoasis-frontend.netlify.app";
-        return;
-      }
-
+      window.location.href =
+        "https://metamask.app.link/dapp/hackoasis-frontend.netlify.app";
       return;
     }
 
     try {
-      // Connect MetaMask
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-      const account = accounts[0]; //contains wallet address
+      const account = accounts[0];
 
-      // Get nonce from backend
       const nonceRes = await api.post("auth/nonce", { publicAddress: account });
       const nonce = nonceRes.data.nonce;
 
-      // Sign the nonce
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
-      //sign message should be same for frontend and backend
       const signature = await signer.signMessage(`Sign this nonce: ${nonce}`);
-      //users signs with their private key in frontend
 
-      // Login
       await dispatch(login({ publicAddress: account, signature })).unwrap();
 
       setPublicAddress(account);
@@ -56,20 +45,31 @@ const Login = () => {
         toast.error("MetaMask login cancelled.");
         return;
       }
-      toast.error(err);
+      toast.error(err.message || "Login failed");
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-y-4 h-screen">
-      <h1 className="text-2xl font-bold">Login</h1>
-      <button
-        disabled={loading}
-        onClick={handleLogin}
-        className="py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition"
-      >
-        {loading ? "Logging in..." : "Login with MetaMask"}
-      </button>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 p-6">
+      <div className="max-w-lg w-full bg-white rounded-3xl shadow-2xl p-10 flex flex-col items-center text-center">
+        <h1 className="text-4xl font-extrabold text-gray-800 mb-4">
+          College Anonymous Voting Platform
+        </h1>
+        <p className="text-gray-600 mb-8">
+          Secure, anonymous, and blockchain-powered voting for your college
+          elections.
+        </p>
+        <button
+          disabled={loading}
+          onClick={handleLogin}
+          className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-2xl shadow-lg transition-all"
+        >
+          {loading ? "Logging in..." : "Login with MetaMask"}
+        </button>
+        <p className="text-gray-500 mt-6 text-sm">
+          Use your MetaMask wallet to securely login.
+        </p>
+      </div>
     </div>
   );
 };

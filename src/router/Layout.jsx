@@ -3,8 +3,8 @@ import React from "react";
 
 export default function Layout() {
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full bg-white shadow-md rounded-md p-2 flex flex-col text-sm">
+    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white flex justify-center items-start p-4">
+      <div className="w-full max-w-2xl bg-white shadow-lg rounded-2xl p-6 sm:p-10">
         <Outlet />
       </div>
     </div>

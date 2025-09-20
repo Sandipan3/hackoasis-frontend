@@ -1,23 +1,36 @@
 import { createBrowserRouter } from "react-router-dom";
-
+import AdminRoute from "../components/AdminRoute";
 import ProtectedRoute from "../components/ProtectedRoute";
-import Login from "../pages/Login";
 import Layout from "./Layout";
+import Login from "../pages/Login";
+import CreateElection from "../pages/CreateElection";
+import RegisterVoters from "../pages/RegisterVoters";
+import CastVote from "../pages/CastVote";
 import YoPage from "../pages/YoPage";
+import CandidateManager from "../pages/CandidateManager";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
     children: [
-      // Public Routes
       { path: "/login", element: <Login /> },
-      // Protected Routes
+
+      // Admin-only routes
+      {
+        element: <AdminRoute />,
+        children: [
+          { path: "/create", element: <CreateElection /> },
+          { path: "/register", element: <RegisterVoters /> },
+          { path: "/cast", element: <CastVote /> },
+          { path: "/candidate", element: <CandidateManager /> },
+        ],
+      },
+
       {
         element: <ProtectedRoute />,
         children: [
-          { path: "/", element: <div>Welcome to your Dashboard!</div> },
-          { path: "/dummy", element: <div>This is a dummy page</div> },
+          { path: "/", element: <div>Welcome</div> },
           { path: "/yo", element: <YoPage /> },
         ],
       },
